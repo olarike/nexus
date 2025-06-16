@@ -1,0 +1,52 @@
+# Dependencies
+**/node_modules
+**/.pnp
+**/.pnp.js
+**/.next
+**/.wrangler
+
+# Testing
+**/coverage
+
+# Next.js
+**/.next/
+**/out/
+
+# Production
+**/build
+**/dist
+
+# Misc
+**/.DS_Store
+**/*.pem
+**/.local
+**/.wrangler
+
+# Debug
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+
+# IDE
+**/.idea
+**/.vscode
+**/*.swp
+**/*.swo
+
+# Git
+**/.git
+**/.gitignore
+
+# Docker
+**/Dockerfile
+**/.dockerignore
+
+# Rust
+**/target/
+**/Cargo.lock
+
+# Solana
+**/.anchor/
+**/.solana/
+**/test-ledger/
+**/admin-keypair.json 

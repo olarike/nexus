@@ -30,11 +30,14 @@ export const getMintPublicKey = (): PublicKey => {
   return mintPublicKey;
 };
 
-// Get the admin keypair using the utility function
-const adminKeypair = getAdminKeypair();
-if (!adminKeypair) {
-  throw new Error("Admin keypair not available");
-}
+// Lazy-load admin keypair only when needed
+const getOrThrowAdminKeypair = (): Keypair => {
+  const adminKeypair = getAdminKeypair();
+  if (!adminKeypair) {
+    throw new Error("Admin keypair not available");
+  }
+  return adminKeypair;
+};
 
 // Initialize mint function - now just returns the existing mint
 export const initializeMint = async (): Promise<PublicKey> => {
@@ -50,6 +53,9 @@ export const airdropCxp = async (
   const connection = getConnection();
   
   try {
+    // Get admin keypair when actually needed
+    const adminKeypair = getOrThrowAdminKeypair();
+    
     // Get admin's token account
     const adminAta = await getOrCreateAssociatedTokenAccount(
       connection,

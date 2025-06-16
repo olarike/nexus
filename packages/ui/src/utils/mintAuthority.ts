@@ -24,15 +24,20 @@ export const getMintAuthorityKey = (): Uint8Array | undefined => {
         console.warn('Invalid mint authority key length in environment variable, using fallback. Expected 64 bytes but got:', keyArray.length);
       }
     } catch (error) {
-      console.error('Error parsing mint authority key from environment variable:', error);
+      console.warn('Error parsing mint authority key from environment variable:', error);
       console.log('Falling back to hardcoded mint authority key');
     }
   } else {
-    console.warn('No mint authority key provided in environment variables');
+    // Only log warning if we're not in a build environment
+    if (typeof window !== 'undefined' || process.env.NODE_ENV === 'development') {
+      console.warn('No mint authority key provided in environment variables');
+    }
   }
   
   // Fallback to hardcoded mint authority key if env var is not set or invalid
-  console.log('Using fallback hardcoded mint authority key');
+  if (typeof window !== 'undefined' || process.env.NODE_ENV === 'development') {
+    console.log('Using fallback hardcoded mint authority key');
+  }
   
   // NOTE: The function should return a hardcoded key here or undefined
   // Security warning: Hardcoded keys should never be used in production
@@ -49,7 +54,10 @@ export const getAdminKeypair = (): Keypair | undefined => {
   const key = getMintAuthorityKey();
   
   if (!key) {
-    console.error('No mint authority key available, admin operations will not be possible');
+    // Only log error if we're not in a build environment
+    if (typeof window !== 'undefined' || process.env.NODE_ENV === 'development') {
+      console.warn('No mint authority key available, admin operations will not be possible');
+    }
     return undefined;
   }
 
